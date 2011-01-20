@@ -1,0 +1,32 @@
+
+# gems required
+# install RVM
+rvm install 1.9.2
+gem install cassandra
+gem install sinatra
+
+
+// to start sinatra
+rvm use 1.9.2
+ruby -rubygems main.rb
+
+// To Start cassandra 
+rvm use 1.9.2
+export CASSANDRA_INCLUDE=/Users/codeninja/projects/tracker/config/cassandra.in.sh
+export CASSANDRA_HOME=/Users/codeninja/cassandra/server
+export CASSANDRA_CONF=/Users/codeninja/projects/tracker/config/
+cassandra_helper cassandra
+
+
+
+// Cassandra Stuff
+// select * from table
+tracker.get_range :SuperColumnFamily, {:start => "", :finish => ""}
+
+# irb & Testing cassandra 
+irb
+require 'sinatra'
+require 'cassandra'
+require 'erb'
+include SimpleUUID
+tracker = Cassandra.new('Tracker')

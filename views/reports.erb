@@ -1,0 +1,6 @@
+<table border="0" cellspacing="5" cellpadding="5">
+	<tr><th>Ad ID</th></tr>
+	<% @ads.each do |ad| %>
+		<tr><td><a href='/reports/<%= ad.key.split('/').first %>'><%= ad.key %></a></td></tr>
+	<% end %>
+</table>
