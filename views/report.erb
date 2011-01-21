@@ -1,12 +1,12 @@
 <h1>Ad : <%= params[:ad_id] %></h1>
-<h3><%= @ad.count %> Events Tracked</h3>
+<h3><%= @ad['metrics'].count %> Events Tracked</h3>
 
-<% @ad.each do |event| %>
-<h2><%= event.columns.count %> <%= event.key.split("/").last %>(s)</h2>
+<% @ad['metrics'].each do |event| %>
+<h2><%= @tracker.count_columns( :TrackedEvents, event.first) %> <%= event.last %>(s)</h2>
 <table border="0" cellspacing="5" cellpadding="5">
 	<tr><th>Session</th><th>Timestamp</th><th>Payload</th></tr>
 	<!-- I hate this right here... dirty dirty dirty. don't do this. -->
-	<% @tracker.get(:TrackedEvents, event.key).each do |action| %>
+	<% @tracker.get(:TrackedEvents, event.first).each do |action| %>
 		<tr>
 			<td><%= action[0] %></td>
 			<td><%= action[1]["timestamp"] %></td>

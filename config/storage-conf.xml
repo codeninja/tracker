@@ -88,10 +88,15 @@
 			<!-- 			
 			Ads : {
 			 	Ad_Guid : { // GUID for the ad
-					client : client_guid, // the client slug
+					clients : {
+						client_id : client_guid
+					},
+					events : {
+						ad_guid/event_type : event
+					}
 				}
 			} -->
-			<ColumnFamily CompareWith="UTF8Type" Name="Ads" />
+			<ColumnFamily CompareWith="UTF8Type" CompareSubcolumnsWith="UTF8Type" ColumnType="Super" Name="Ads" />  
 
 			<!-- 
 			Sessions : { // timestamped session ids of user reports.

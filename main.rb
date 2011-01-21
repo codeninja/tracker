@@ -1,5 +1,5 @@
 require 'sinatra'
-require 'cassandra/0.7'
+require 'cassandra'
 require 'erb'
 include SimpleUUID
 
@@ -17,24 +17,34 @@ get "/page" do
 end
 
 get "/report/:api_key/:ad_id/:session_id/:event_type" do
-  # 
-  # client = tracker.get(:Clients, params[:api_key])
+
+  puts params[:api_key]
+  client = @tracker.get( :Clients, params[:api_key])
   # unless client.empty? or params[:event_type].empty?
+    # calculated metric id
+    metric_id =  params[:ad_id]+"/"+params[:event_type]
+    
+    # create ad->metric map
+    @tracker.insert( :Ads, params[:ad_id], {'clients' => {'client_id' => params[:api_key]}, 'metrics'=>{ metric_id => params[:event_type]}})
+    
     # save the event
-    @tracker.insert :TrackedEvents, params[:ad_id]+"/"+params[:event_type], { params[:session_id] => {"timestamp" => Time.now.to_s} }    
+    @tracker.insert( :TrackedEvents, metric_id, { params[:session_id] => {"timestamp" => Time.now.to_s, UUID.new.to_guid=>params[:payload]} }    )
   # end
 end
 
 get "/reports" do 
   
   # get all ads
-  @ads = @tracker.get_range :TrackedEvents, {}
+  @ads = @tracker.get_range( :Ads, {} )
   
   erb :reports
 end
 
 get "/reports/:ad_id" do
-  @ad = @tracker.get_range( :TrackedEvents, {:start => params[:ad_id]+'/'}) #the trailing slash here is important. without it cassandra won't return for some reason.
+  @ad = @tracker.get(:Ads, params[:ad_id])
+  
+  
+  # @ad = @tracker.get_range( :TrackedEvents, {:start => params[:ad_id]+'/'}) #the trailing slash here is important. without it cassandra won't return for some reason.
   erb :report
 end
 
