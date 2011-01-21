@@ -10,7 +10,7 @@
 		<tr>
 			<td><%= action[0] %></td>
 			<td><%= action[1]["timestamp"] %></td>
-			<td><%= action[1]["payload"] %></td>
+			<td><%= action[1].size - 1 %> Data Points</td>
 		</tr>
 	<% end %>
 </table>
