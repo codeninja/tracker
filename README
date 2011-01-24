@@ -30,3 +30,20 @@ require 'cassandra'
 require 'erb'
 include SimpleUUID
 tracker = Cassandra.new('Tracker')
+
+
+
+
+===API DOC===
+
+/api/:apikey/client/:client_id
+	-- ret json client information
+	
+/api/:apikey/client/new (post)
+	-- ret true/false 
+
+api/:apikey/client/:client_id/ad/:ad_id
+	-- ret json ad summery 
+	
+api/:apikey/client/:client_id/ad/:ad_id/:event
+	-- ret json ad/event summery

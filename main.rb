@@ -1,3 +1,4 @@
+require 'rubygems'
 require 'sinatra'
 require 'cassandra'
 require 'erb'
@@ -10,10 +11,6 @@ end
 
 get "/" do
   erb :demo
-end
-
-get "/page" do
-  "This is another page"
 end
 
 get "/report/:api_key/:ad_id/:session_id/:event_type" do
@@ -43,8 +40,41 @@ end
 get "/reports/:ad_id" do
   @ad = @tracker.get(:Ads, params[:ad_id])
   
-  
   # @ad = @tracker.get_range( :TrackedEvents, {:start => params[:ad_id]+'/'}) #the trailing slash here is important. without it cassandra won't return for some reason.
   erb :report
 end
 
+
+# ===API DOC===
+# 
+# /api/:apikey/client/:client_id
+#   -- ret json client information
+#   
+# /api/:apikey/client/new (post)
+#   -- ret true/false 
+# 
+# api/:apikey/client/:client_id/ad/:ad_id
+#   -- ret json ad summery 
+#   
+# api/:apikey/client/:client_id/ad/:ad_id/:event
+#   -- ret json ad/event summery
+
+# create a client and return success status
+post "/api/:apikey/client/new" do
+  
+end
+
+# get client details and return them as json
+get "/api/:apikey/client/:client_id" do 
+
+end
+
+# get details about an ad's summery and report that as json
+get "/api/:apikey/client/:client_id/ad/:ad_id" do
+  
+end
+
+# get details about an ad's event and report back as json
+get "/api/:apikey/client/:client_id/ad/:ad_id/:event" do
+  
+end
