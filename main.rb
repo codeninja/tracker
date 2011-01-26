@@ -14,7 +14,6 @@ get "/" do
 end
 
 get "/report/:api_key/:ad_id/:session_id/:event_type" do
-
   puts params[:api_key]
   client = @tracker.get( :Clients, params[:api_key])
   # unless client.empty? or params[:event_type].empty?
