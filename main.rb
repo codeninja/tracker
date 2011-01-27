@@ -24,7 +24,9 @@ get "/report/:api_key/:ad_id/:session_id/:event_type" do
     @tracker.insert( :Ads, params[:ad_id], {'clients' => {'client_id' => params[:api_key]}, 'metrics'=>{ metric_id => params[:event_type]}})
     
     # save the event
-    @tracker.insert( :TrackedEvents, metric_id, { params[:session_id] => {"timestamp" => Time.now.to_s, UUID.new.to_guid=>params[:payload]} }    )
+    time = Time.now
+    @tracker.insert( :TrackedEvents, metric_id, { params[:session_id] => {"timestamp" => time, UUID.new.to_guid=>params[:payload]} }    )
+    @tracker.insert( :TrackedEventsByTime, time.to_f, { metric_id => {"session_id" => params[:session_id], UUID.new.to_guid=>params[:payload]} }    )
   # end
 end
 
